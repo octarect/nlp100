@@ -1,5 +1,25 @@
 require "json"
 
+class String
+  def match_all(reg)
+    ret = []
+    str = self
+
+    until str.nil?
+      m = str.match(reg)
+      unless m.nil?
+        for i in 1..(m.length-1)
+          ret.push m[i]
+        end
+        str = m.post_match
+      else
+        break
+      end
+    end
+    ret
+  end
+end
+
 # Constant value
 key_title = "title"
 key_article = "text"
@@ -10,8 +30,5 @@ fname = ARGV[0]
 data = []
 File.foreach(fname) do |line|
   d = JSON.parse(line)
-  m = d[key_article].match(/\[\[Category:(.*)\]\]*/)
-  unless m.nil?
-    puts m[1]
-  end
+  p d[key_article].match_all(/\[\[Category:(.*)\]\]/)
 end
