@@ -30,5 +30,5 @@ fname = ARGV[0]
 data = []
 File.foreach(fname) do |line|
   d = JSON.parse(line)
-  p d[key_article].match_all(/\[\[Category:(.*)\]\]/)
+  p line unless d[key_article].match_all(/\[\[Category:(.*)\]\]/).empty?
 end
